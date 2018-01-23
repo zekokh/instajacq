@@ -1,0 +1,22 @@
+<ol class="breadcrumb">
+    <li
+  	<% if menu[:active] == "competition" %> 
+  		class="active">
+  		 Конкурс
+  	<% else %>
+  	> <a href="/competition">Конкурс</a>
+    <% end %>
+   </li>
+  <li
+  	<% if menu[:active] == "user" %> 
+  		class="active">
+  		 Участники
+  	<% else %>
+  	> <a href="/user">Участники</a>
+    <% end %>
+   </li>
+  <li  <% if menu[:active] == "blocked" %> class="active" <% end %> ><a href="#">Публикации</a></li>
+   <li>
+   	<a href="#">Заблокированные</a>
+   </li>
+</ol>

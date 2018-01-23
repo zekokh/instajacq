@@ -1,0 +1,54 @@
+<%= render('patrial/navbar', menu: {active: "user"}) %>
+
+    <div class="container">
+     
+     <% if !@users.blank? %>
+     <h5><b>Всего участников:</b> <%=  @users.size %> </h5>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>#id</th>
+            <th>Ник</th>
+            <th>Имя</th>
+            <th>Номер</th>
+            <th>Статус активности</th>
+            <th>Статус блокировки</th>
+
+          </tr>
+        </thead>
+        <tbody>
+        
+              <% @users.each do |user| %>
+                <tr>
+                  <th><%= user[:user_id] %></th>
+                  <td><a href="<%= user[:url] %>"><%= user[:nickname] %></a></td>
+                  <td><%= user[:name] %></td>
+                  <td><%= user[:number] %></td>
+                  <td>
+                    <%if user[:is_live?] %>
+                      Активен
+                    <% else %>
+                      Не активен
+                    <% end %>
+                  </td>
+                  <td>
+                   <%if user[:is_blocked?] %>
+                      Заблокирован
+                    <% else %>
+                      Не заблокирован
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+          
+        </tbody>
+      </table>
+      <% else %>
+       
+        <% if @competition.blank? %>
+          Участников в базе данных нет! Для поиска участников <a href="/competition/new">запустите</a> конкурс.
+        <% else %>
+          Бендер ищет участников обновите страницу попозже...
+        <% end %>
+      <% end %>
+    </div>

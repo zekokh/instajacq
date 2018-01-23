@@ -1,0 +1,27 @@
+<%= render('patrial/navbar', menu: {active: "user"}) %>
+    <div class="container">
+        <% if !@publications.blank? %>
+            <h5><b>Всего публикаций:</b> <%=  @publications.size %> </h5>
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    
+              
+                <% @publications.each do |publication| %>
+                <div class="thumbnail">
+                        <img data-src=<%= publication[:url] %> alt="...">
+                        <div class="caption">
+                            <h3><%= publication[:code] %></h3>
+                            <p>...</p>
+                            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                        </div>
+                    </div>
+                <% end %>
+        </div>
+        <% else %>
+            <% if @competition.blank? %>
+                  Публикаций в базе данных нет! Для поиска публикаций <a href="/competition/new">запустите</a> конкурс.
+            <% else %>
+                  Бендер ищет участников обновите страницу попозже...
+            <% end %>
+        <% end %>
+            </div>

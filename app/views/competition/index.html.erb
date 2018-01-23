@@ -1,0 +1,21 @@
+<%= render('patrial/navbar', menu: {active: "competition"}) %>
+
+    <div class="container">
+    <% if notice %>
+      <br/>
+      <div class="alert alert-info">
+        <%= notice %>
+      </div>
+    <% end %>
+      <% unless @current_competition.blank? %>
+        <h4><b>Дата начало конкурса:</b></h4><h4><%= @current_competition.date_and_time_start %></h4>
+        <h4><b>Дата окончания конкурса:</b></h4><h4><%= @current_competition.date_and_time_finish %></h4>
+        <h4><b>Хэштег:</b></h4><h4>#<%= @current_competition.hashtag %></h4>
+        <div class="caption">
+          <%= button_to 'Завершить конкурс', competition_path(@current_competition), class: 'btn btn-danger', data: {confirm: 'Участники конкурса будут удалены. Вы уверены?'}, method: :delete %>
+        </div>
+      <% else %>
+        У Вас нет запущенного конкурса!
+        <a href="/competition/new">Запустить.</a>
+      <% end %>
+    </div>

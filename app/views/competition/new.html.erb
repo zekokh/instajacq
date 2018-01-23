@@ -1,0 +1,37 @@
+<%= render('patrial/navbar', menu: {active: "competition"}) %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6">
+
+    <% if @competition.errors.any? %>
+      <div id="error_explanation">
+        <% @competition.errors.full_messages.each do |msg| %>
+          <div class="alert alert-warning" role="alert">
+            <%= msg %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if notice %>
+      <div class="alert alert-info">
+        <%= notice %>
+      </div>
+    <% end %>
+      <br/>
+    <%= form_for @competition, url: competition_index_path do |form| %>
+    <%= form.text_field :date_and_time_start, class: "form-control", placeholder: "Дата старта*", id: "datetimepicker1", maxlength: 30 %>
+    <br/>
+    <%= form.text_field :date_and_time_finish, class: "form-control", placeholder: "Дата окончания*", id: "datetimepicker2", maxlength: 30 %>
+    <br/>
+    <%= form.text_field :hashtag, class: "form-control", placeholder: "Хэштег*", maxlength: 30 %>
+    <br/>
+    <%= form.submit 'Добавить', class: "btn btn-primary" %>
+    <%= link_to 'Отмена', competition_index_path, class: 'btn btn-default btn', role: 'button' %>
+    <% end %>
+
+    </div>
+  </div>
+    
+</div>
