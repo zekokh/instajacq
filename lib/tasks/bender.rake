@@ -83,20 +83,23 @@ namespace :bender do
         if date_and_time_start <= media['taken_at_timestamp'] && date_and_time_finish >= media['taken_at_timestamp']
         puts "Даты подходят..."
           #Если пользователя нет в базе участников то добавляем
-          unless check_user(user_owner['id'])
-
+          unless check_publication(media['shortcode'])
             Publication.create(date: media['taken_at_timestamp'],
                              url: media['display_url'],
                              code: media['shortcode'],
                              owner: media['owner']['id'])
             puts media['shortcode']
 
-            User.create(name: user_owner['full_name'],
-                        nickname: user_owner['username'],
-                        url: user_owner[''],
-                        user_id: user_owner['id'],
-                        number: generate_number+1)
-            puts user_owner['username']
+
+            unless check_user(user_owner['id'])
+              User.create(name: user_owner['full_name'],
+                          nickname: user_owner['username'],
+                          url: user_owner[''],
+                          user_id: user_owner['id'],
+                          number: generate_number+1)
+              puts user_owner['username']
+            end
+
 
             #Добавляем отмеченных пользователей
             media_to_tagged_user.each do |tagged_user|
@@ -122,6 +125,13 @@ namespace :bender do
     return true if user_id == 1703983654
     users = User.find_by(is_live?: true, is_blocked?: false, user_id: user_id)
     users.blank? ? false : true
+  end
+
+  def check_publication(code)
+    puts "Наличие публикации"
+    publication = Publication.find_by(is_live?: true, is_blocked?: false, code: code)
+    puts publication.blank? ? false : true
+    publication.blank? ? false : true
   end
 
   #Проверка пользователя по нику
