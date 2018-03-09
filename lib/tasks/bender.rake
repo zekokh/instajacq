@@ -83,7 +83,7 @@ namespace :bender do
         puts "дата публикации: #{media['taken_at_timestamp']}"
         puts date_and_time_start
         #Если дата публикации позднее послденей добавленной
-        return if date_and_time_start > media['taken_at_timestamp']
+        #return if date_and_time_start > media['taken_at_timestamp']
         if date_and_time_start <= media['taken_at_timestamp'] && date_and_time_finish >= media['taken_at_timestamp']
         puts "Даты подходят..."
           #Если пользователя нет в базе участников то добавляем
