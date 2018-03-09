@@ -5,6 +5,7 @@ namespace :bender do
 
 	    unless competition.blank?
 	      search_publications(competition, false, nil)
+
 	      else
 	      	puts "Нет запущенного конкурса..."
 	    end
@@ -62,6 +63,9 @@ namespace :bender do
 
       #Получаем более подробную информацию и создаем объекты
       edges.each do |edge|
+        puts "Спим"
+        sleep(5)
+        puts "Проснулись"
         url_str = URI::encode("https://www.instagram.com/p/#{edge['node']['shortcode']}/?__a=1")
 
         puts "Отправляем запрс..."
