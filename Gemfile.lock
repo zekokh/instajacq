@@ -191,7 +191,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   jbuilder (~> 2.5)
   jquery-rails
-  json (~> 2.1.0)
+  json (= 2.1.0)
   listen (~> 3.0.5)
   momentjs-rails
   pg
