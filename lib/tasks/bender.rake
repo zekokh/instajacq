@@ -28,7 +28,7 @@ namespace :bender do
       #else
        # date_last_publication = competition[:date_and_time_start].to_time.to_i #1493596800
       #end
-      
+
 
       #Берем всех пользователей которые существуют и не заблокирванны
       users = User.where(is_live?: true, is_blocked?: false)
@@ -36,10 +36,9 @@ namespace :bender do
       #Хэш тег по которому осуществляется поиск медиа
       tag = competition[:hashtag]
 
-     
+
 
       if flag_next_page
-
         #Формируем адрес
         url_string = "https://www.instagram.com/explore/tags/#{tag}/?__a=1&max_id=#{next_page_url}"
       else
@@ -50,7 +49,7 @@ namespace :bender do
       url = URI::encode(url_string)
 
       #Отправляем GET запрос
-      doc = RestClient.get(url)
+      doc = RestClient.get(url, {cookies: {'csrftoken' => 'HIw0PzUO51GHEocqS80YO6y6FtJomehV', 'ds_user_id' => '1703983654'}})
 
       #Парсим в JSON ответ
       json = JSON.parse(doc)
@@ -66,11 +65,13 @@ namespace :bender do
         puts "Спим"
         sleep(5)
         puts "Проснулись"
-        url_str = URI::encode("https://www.instagram.com/p/#{edge['node']['shortcode']}/?__a=1")
+        #url_str = URI::encode("https://www.instagram.com/p/#{edge['node']['shortcode']}/?__a=1")
+				url_str = URI::encode("https://www.instagram.com/p/#{edge['node']['shortcode']}/?__a=1")
+
 
         puts "Отправляем запрс..."
         #Отправляем GET запрос
-        document = RestClient.get(url_str)
+        document = RestClient.get(url_str, {cookies: {'sessionid'=>'IGSC225facceac13b208e07d855bd22b2c84f2b7bce36f4cbc73c5c76b8d2ea1d60a%3AIVeCHfxClF5uwGORK5Wok5t6NKtLqUoG%3A%7B%22_auth_user_id%22%3A1703983654%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_auth_user_hash%22%3A%22%22%2C%22_platform%22%3A4%2C%22_token_ver%22%3A2%2C%22_token%22%3A%221703983654%3AxfaeezYn1wfQtI3yVZRwl4MlbcD96H1w%3Aa962ae76a8020dc36b54aa9065a805da9e9e9f3c664be7a0db8776f459b581dd%22%2C%22last_refreshed%22%3A1523610230.0870304108%7D','csrftoken' => 'HIw0PzUO51GHEocqS80YO6y6FtJomehV', 'ds_user_id' => '1703983654', 'mid' => 'WtByZAAEAAFWEe0UGOOLQccu_1-l'}})
         media = JSON.parse(document)
         media = media['graphql']['shortcode_media']
 
@@ -95,7 +96,7 @@ namespace :bender do
             puts media['shortcode']
 
 
-            unless check_user(user_owner['id'])
+            unless check_user_by_nick(user_owner['username'])
               User.create(name: user_owner['full_name'],
                           nickname: user_owner['username'],
                           url: user_owner[''],
@@ -114,6 +115,7 @@ namespace :bender do
               #Если пользователя нет в списке участников
               unless check_user_by_nick(user_name)
 
+
                 #Добавляем пользователя в список участников
                 create_user_by_nick(user_name)
               end
@@ -126,7 +128,7 @@ namespace :bender do
 
   #Проверка пользователя по id
   def check_user(user_id)
-    return true if user_id == 1703983654
+    return true if nickname == 1703983654
     users = User.find_by(is_live?: true, is_blocked?: false, user_id: user_id)
     users.blank? ? false : true
   end
@@ -147,15 +149,11 @@ namespace :bender do
 
   #Создания пользователя по нику
   def create_user_by_nick(nick)
-    url_user = URI::encode("https://www.instagram.com/#{nick}/?__a=1")
-    user_doc = RestClient.get(url_user)
-    user_info_json = JSON.parse(user_doc)
-    user_info = user_info_json['user']
 
-    User.create(name: user_info['full_name'],
-                      nickname: user_info['username'],
-                      url: user_info['profile_pic_url'],
-                      user_id: user_info['id'],
+    User.create(name: '',
+                      nickname: nick,
+                      url: '',
+                      user_id: '',
                       number: generate_number+1)
   end
 
