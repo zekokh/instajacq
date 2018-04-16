@@ -23,7 +23,7 @@ gem 'coffee-rails', '~> 4.2'
 # gem 'therubyracer', platforms: :ruby
 
 gem 'rest-client'
-gem 'json'
+gem 'json', '~> 1.8'
 gem 'whenever', require: false
 
 gem 'momentjs-rails'
